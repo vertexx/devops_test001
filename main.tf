@@ -12,114 +12,114 @@ provider "azurerm" {
 }
 
 resource "azurerm_resource_group" "devops_test_rg" {
-  name     = "devops_test_rg"
+  name     = "DevOps_Test_RG"
   location = "Southeast Asia"
   tags = {
     environment = "devops_test"
   }
 }
 
-# resource "azurerm_virtual_network" "devops_test_vn" {
-#   name                = "devops_test_vn"
-#   resource_group_name = azurerm_resource_group.devops_test_rg.name
-#   location            = azurerm_resource_group.devops_test_rg.location
-#   address_space       = ["10.123.0.0/16"]
+resource "azurerm_virtual_network" "devops_test_vn" {
+  name                = "DevOps_Test_VN"
+  resource_group_name = azurerm_resource_group.devops_test_rg.name
+  location            = azurerm_resource_group.devops_test_rg.location
+  address_space       = ["10.4.0.0/16"]
 
-#   tags = {
-#     environment = "dev"
-#   }
-# }
+  tags = {
+    environment = "devops_test"
+  }
+}
 
-# resource "azurerm_subnet" "mtc-subnet" {
-#   name                 = "mtc-subnet"
-#   resource_group_name  = azurerm_resource_group.mtc-rg.name
-#   virtual_network_name = azurerm_virtual_network.mtc-vn.name
-#   address_prefixes     = ["10.123.1.0/24"]
-# }
+resource "azurerm_subnet" "devops_test_vn_subnet" {
+  name                 = "DevOps_Test_VN_Subnet"
+  resource_group_name  = azurerm_resource_group.devops_test_rg.name
+  virtual_network_name = azurerm_virtual_network.devops_test_vn.name
+  address_prefixes     = ["10.4.0.0/24"]
+}
 
-# resource "azurerm_network_security_group" "mtc-nsg" {
-#   name                = "mtc-nsg"
-#   resource_group_name = azurerm_resource_group.mtc-rg.name
-#   location            = azurerm_resource_group.mtc-rg.location
+resource "azurerm_network_security_group" "devops_test_nsg" {
+  name                = "DevOps_Test_NSG"
+  resource_group_name = azurerm_resource_group.devops_test_rg.name
+  location            = azurerm_resource_group.devops_test_rg.location
 
-#   tags = {
-#     environment = "dev"
-#   }
-# }
+  tags = {
+    environment = "devops_test"
+  }
+}
 
-# resource "azurerm_network_security_rule" "mtc-nsr1" {
-#   name                        = "mtc-nsr1"
-#   priority                    = 100
-#   direction                   = "Inbound"
-#   access                      = "Allow"
-#   protocol                    = "*"
-#   source_port_range           = "*"
-#   destination_port_range      = "*"
-#   source_address_prefix       = "183.89.0.0/16"
-#   destination_address_prefix  = "*"
-#   resource_group_name         = azurerm_resource_group.mtc-rg.name
-#   network_security_group_name = azurerm_network_security_group.mtc-nsg.name
-# }
+resource "azurerm_network_security_rule" "devops_test_nsr_01" {
+  name                        = "SSH"
+  priority                    = 100
+  direction                   = "Inbound"
+  access                      = "Allow"
+  protocol                    = "Tcp"
+  source_port_range           = "*"
+  destination_port_range      = "22"
+  source_address_prefix       = "183.89.0.0/16"
+  destination_address_prefix  = "*"
+  resource_group_name         = azurerm_resource_group.devops_test_rg.name
+  network_security_group_name = azurerm_network_security_group.devops_test_nsg.name
+}
 
-# resource "azurerm_subnet_network_security_group_association" "mtc-sga" {
-#   subnet_id                 = azurerm_subnet.mtc-subnet.id
-#   network_security_group_id = azurerm_network_security_group.mtc-nsg.id
-# }
+resource "azurerm_subnet_network_security_group_association" "devops_test_snsga" {
+  subnet_id                 = azurerm_subnet.devops_test_vn_subnet.id
+  network_security_group_id = azurerm_network_security_group.devops_test_nsg.id
+}
 
-# resource "azurerm_public_ip" "mtc-ip" {
-#   name                = "mtc-ip-1"
-#   resource_group_name = azurerm_resource_group.mtc-rg.name
-#   location            = azurerm_resource_group.mtc-rg.location
-#   allocation_method   = "Dynamic"
+resource "azurerm_public_ip" "devops_test_pub_ip" {
+  name                = "DevOps_Test_PubIP"
+  resource_group_name = azurerm_resource_group.devops_test_rg.name
+  location            = azurerm_resource_group.devops_test_rg.location
+  allocation_method   = "Dynamic"
 
-#   tags = {
-#     environment = "dev"
-#   }
-# }
+  tags = {
+    environment = "devops_test"
+  }
+}
 
-# resource "azurerm_network_interface" "mtc-nic" {
-#   name                = "mtc-nic"
-#   location            = azurerm_resource_group.mtc-rg.location
-#   resource_group_name = azurerm_resource_group.mtc-rg.name
+resource "azurerm_network_interface" "devops_test_nic_01" {
+  name                = "DevOps_Test_NIC_01"
+  resource_group_name = azurerm_resource_group.devops_test_rg.name
+  location            = azurerm_resource_group.devops_test_rg.location
 
-#   ip_configuration {
-#     name                          = "internal"
-#     subnet_id                     = azurerm_subnet.mtc-subnet.id
-#     private_ip_address_allocation = "Dynamic"
-#     public_ip_address_id          = azurerm_public_ip.mtc-ip.id
-#   }
+  ip_configuration {
+    name                          = "internal"
+    subnet_id                     = azurerm_subnet.devops_test_vn_subnet.id
+    private_ip_address_allocation = "Dynamic"
+    public_ip_address_id          = azurerm_public_ip.devops_test_pub_ip.id
+  }
 
-#   tags = {
-#     environment = "dev"
-#   }
-# }
+  tags = {
+    environment = "devops_test"
+  }
+}
 
-# resource "azurerm_linux_virtual_machine" "mtc-vm" {
-#   name                  = "mtc-vm"
-#   resource_group_name   = azurerm_resource_group.mtc-rg.name
-#   location              = azurerm_resource_group.mtc-rg.location
-#   size                  = "Standard_B1s"
-#   admin_username        = "adminuser"
-#   network_interface_ids = [azurerm_network_interface.mtc-nic.id]
+resource "azurerm_linux_virtual_machine" "devops_test_vm_01" {
+  name                  = "DevOps-Test-VM-01"
+  resource_group_name   = azurerm_resource_group.devops_test_rg.name
+  location              = azurerm_resource_group.devops_test_rg.location
+  size                  = "Standard_B1s"
+  admin_username        = "adminuser"
+  network_interface_ids = [azurerm_network_interface.devops_test_nic_01.id]
 
 #   custom_data = filebase64("customdata.tpl")
 
-#   admin_ssh_key {
-#     username   = "adminuser"
-#     public_key = file("~/.ssh/id_rsa.pub")
-#   }
+  admin_ssh_key {
+    username   = "adminuser"
+    public_key = file("~/.ssh/id_rsa.pub")
+  }
 
-#   os_disk {
-#     caching              = "ReadWrite"
-#     storage_account_type = "Standard_LRS"
-#   }
+  os_disk {
+    caching              = "ReadWrite"
+    storage_account_type = "Standard_LRS"
+  }
 
-#   source_image_reference {
-#     publisher = "Canonical"
-#     offer     = "UbuntuServer"
-#     sku       = "18.04-LTS"
-#     version   = "latest"
-#   }
+  source_image_reference {
+    publisher = "Canonical"
+    offer     = "0001-com-ubuntu-server-jammy"
+    sku       = "22_04-lts-gen2"
+    version   = "latest"
+  }
 
 #   provisioner "local-exec" {
 #     command = templatefile("${var.host_os}-ssh-script.tpl", {
@@ -130,10 +130,10 @@ resource "azurerm_resource_group" "devops_test_rg" {
 #     interpreter = var.host_os == "windows" ? ["Powershell", "-Command"] : ["bash", "-c"]
 #   }
 
-#   tags = {
-#     environment = "dev"
-#   }
-# }
+  tags = {
+    environment = "devops_test"
+  }
+}
 
 # data "azurerm_public_ip" "mtc-pub-ip" {
 #   name                = azurerm_public_ip.mtc-ip.name
