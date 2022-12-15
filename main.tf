@@ -12,15 +12,16 @@ provider "azurerm" {
 }
 
 resource "azurerm_resource_group" "devops_test_rg" {
-  name     = "DevOps_Test_RG"
-  location = "Southeast Asia"
+  name     = "DevOps-Test-RG"
+  # location = "Southeast Asia"
+  location = "Central India"
   tags = {
     environment = "devops_test"
   }
 }
 
 resource "azurerm_virtual_network" "devops_test_vn" {
-  name                = "DevOps_Test_VN"
+  name                = "DevOps-Test-VN"
   resource_group_name = azurerm_resource_group.devops_test_rg.name
   location            = azurerm_resource_group.devops_test_rg.location
   address_space       = ["10.4.0.0/16"]
@@ -31,14 +32,14 @@ resource "azurerm_virtual_network" "devops_test_vn" {
 }
 
 resource "azurerm_subnet" "devops_test_vn_subnet" {
-  name                 = "DevOps_Test_VN_Subnet"
+  name                 = "DevOps-Test-VN-Subnet"
   resource_group_name  = azurerm_resource_group.devops_test_rg.name
   virtual_network_name = azurerm_virtual_network.devops_test_vn.name
   address_prefixes     = ["10.4.0.0/24"]
 }
 
 resource "azurerm_network_security_group" "devops_test_nsg" {
-  name                = "DevOps_Test_NSG"
+  name                = "DevOps-Test-NSG"
   resource_group_name = azurerm_resource_group.devops_test_rg.name
   location            = azurerm_resource_group.devops_test_rg.location
 
@@ -67,7 +68,7 @@ resource "azurerm_subnet_network_security_group_association" "devops_test_snsga"
 }
 
 resource "azurerm_public_ip" "devops_test_pub_ip" {
-  name                = "DevOps_Test_PubIP"
+  name                = "DevOps-Test-Pub-IP"
   resource_group_name = azurerm_resource_group.devops_test_rg.name
   location            = azurerm_resource_group.devops_test_rg.location
   allocation_method   = "Dynamic"
@@ -78,7 +79,7 @@ resource "azurerm_public_ip" "devops_test_pub_ip" {
 }
 
 resource "azurerm_network_interface" "devops_test_nic_01" {
-  name                = "DevOps_Test_NIC_01"
+  name                = "DevOps-Test-NIC-01"
   resource_group_name = azurerm_resource_group.devops_test_rg.name
   location            = azurerm_resource_group.devops_test_rg.location
 
