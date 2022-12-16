@@ -2,7 +2,7 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "=3.35.0"
+      version = "=3.36.0"
     }
   }
 }
@@ -12,7 +12,7 @@ provider "azurerm" {
 }
 
 resource "azurerm_resource_group" "devops_test_rg" {
-  name     = "DevOps-Test-RG"
+  name = "DevOps-Test-RG"
   # location = "Southeast Asia"
   location = "Central India"
   tags = {
