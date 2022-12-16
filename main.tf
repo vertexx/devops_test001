@@ -103,7 +103,7 @@ resource "azurerm_linux_virtual_machine" "devops_test_vm_01" {
   admin_username        = "adminuser"
   network_interface_ids = [azurerm_network_interface.devops_test_nic_01.id]
 
-#   custom_data = filebase64("customdata.tpl")
+  custom_data = filebase64("customdata.tpl")
 
   admin_ssh_key {
     username   = "adminuser"
