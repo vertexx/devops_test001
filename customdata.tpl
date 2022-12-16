@@ -5,6 +5,8 @@ sudo apt install -y \
 apt-transport-https \
 ca-certificates \
 mc \
+atop \
+htop \
 curl \
 gnupg-agent \
 software-properties-common

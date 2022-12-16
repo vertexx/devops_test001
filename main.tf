@@ -122,25 +122,25 @@ resource "azurerm_linux_virtual_machine" "devops_test_vm_01" {
     version   = "latest"
   }
 
-#   provisioner "local-exec" {
-#     command = templatefile("${var.host_os}-ssh-script.tpl", {
-#       hostname     = self.public_ip_address,
-#       user         = "adminuser",
-#       identityfile = "~/.ssh/id_rsa"
-#     })
-#     interpreter = var.host_os == "windows" ? ["Powershell", "-Command"] : ["bash", "-c"]
-#   }
+  provisioner "local-exec" {
+    command = templatefile("ssh-script-${var.host_os}.tpl", {
+      hostname     = self.public_ip_address,
+      user         = "adminuser",
+      identityfile = "~/.ssh/id_rsa"
+    })
+    interpreter = var.host_os == "windows" ? ["Powershell", "-Command"] : ["bash", "-c"]
+  }
 
   tags = {
     environment = "devops_test"
   }
 }
 
-# data "azurerm_public_ip" "mtc-pub-ip" {
-#   name                = azurerm_public_ip.mtc-ip.name
-#   resource_group_name = azurerm_resource_group.mtc-rg.name
-# }
+data "azurerm_public_ip" "devops_test_pub_ip_data" {
+  name                = azurerm_public_ip.devops_test_pub_ip.name
+  resource_group_name = azurerm_resource_group.devops_test_rg.name
+}
 
-# output "public_ip_address" {
-#   value = "${azurerm_linux_virtual_machine.mtc-vm.name}: ${data.azurerm_public_ip.mtc-pub-ip.ip_address}"
-# }
+output "public_ip_address" {
+  value = "${azurerm_linux_virtual_machine.devops_test_vm_01.name}: ${data.azurerm_public_ip.devops_test_pub_ip_data.ip_address}"
+}
