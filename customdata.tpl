@@ -1,6 +1,7 @@
 #!/bin/bash
-sudo apt-get update -y &&
-sudo apt-get install -y \
+sudo apt update -y &&
+sudo apt upgrade -y &&
+sudo apt install -y \
 apt-transport-https \
 ca-certificates \
 mc \
