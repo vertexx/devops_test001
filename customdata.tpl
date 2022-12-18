@@ -9,6 +9,8 @@ atop \
 htop \
 curl \
 gnupg-agent \
+openjdk-8-jre-headless \
+net-tools \
 software-properties-common
 # &&
 # curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add - &&

@@ -62,6 +62,20 @@ resource "azurerm_network_security_rule" "devops_test_nsr_01" {
   network_security_group_name = azurerm_network_security_group.devops_test_nsg.name
 }
 
+resource "azurerm_network_security_rule" "devops_test_nsr_02" {
+  name                        = "WWW"
+  priority                    = 200
+  direction                   = "Inbound"
+  access                      = "Allow"
+  protocol                    = "Tcp"
+  source_port_range           = "*"
+  destination_port_range      = "7071"
+  source_address_prefix       = "183.89.0.0/16"
+  destination_address_prefix  = "*"
+  resource_group_name         = azurerm_resource_group.devops_test_rg.name
+  network_security_group_name = azurerm_network_security_group.devops_test_nsg.name
+}
+
 resource "azurerm_subnet_network_security_group_association" "devops_test_snsga" {
   subnet_id                 = azurerm_subnet.devops_test_vn_subnet.id
   network_security_group_id = azurerm_network_security_group.devops_test_nsg.id
