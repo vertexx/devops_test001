@@ -12,40 +12,31 @@ provider "azurerm" {
 }
 
 resource "azurerm_resource_group" "devops_test_rg" {
-  name = "DevOps-Test-RG"
-  # location = "Southeast Asia"
-  location = "Central India"
-  tags = {
-    environment = "devops_test"
-  }
+  name     = "DevOps-Test-RG"
+  location = var.location
+  tags     = var.common_tags
 }
 
 resource "azurerm_virtual_network" "devops_test_vn" {
   name                = "DevOps-Test-VN"
   resource_group_name = azurerm_resource_group.devops_test_rg.name
   location            = azurerm_resource_group.devops_test_rg.location
-  address_space       = ["10.4.0.0/16"]
-
-  tags = {
-    environment = "devops_test"
-  }
+  address_space       = var.network_address_space
+  tags                = var.common_tags
 }
 
 resource "azurerm_subnet" "devops_test_vn_subnet" {
   name                 = "DevOps-Test-VN-Subnet"
   resource_group_name  = azurerm_resource_group.devops_test_rg.name
   virtual_network_name = azurerm_virtual_network.devops_test_vn.name
-  address_prefixes     = ["10.4.0.0/24"]
+  address_prefixes     = var.network_subnet
 }
 
 resource "azurerm_network_security_group" "devops_test_nsg" {
   name                = "DevOps-Test-NSG"
   resource_group_name = azurerm_resource_group.devops_test_rg.name
   location            = azurerm_resource_group.devops_test_rg.location
-
-  tags = {
-    environment = "devops_test"
-  }
+  tags                = var.common_tags
 }
 
 resource "azurerm_network_security_rule" "devops_test_nsr_01" {
@@ -76,6 +67,20 @@ resource "azurerm_network_security_rule" "devops_test_nsr_02" {
   network_security_group_name = azurerm_network_security_group.devops_test_nsg.name
 }
 
+resource "azurerm_network_security_rule" "devops_test_nsr_03" {
+  name                        = "Nexus"
+  priority                    = 300
+  direction                   = "Inbound"
+  access                      = "Allow"
+  protocol                    = "Tcp"
+  source_port_range           = "*"
+  destination_port_range      = "8081"
+  source_address_prefix       = "183.89.0.0/16"
+  destination_address_prefix  = "*"
+  resource_group_name         = azurerm_resource_group.devops_test_rg.name
+  network_security_group_name = azurerm_network_security_group.devops_test_nsg.name
+}
+
 resource "azurerm_subnet_network_security_group_association" "devops_test_snsga" {
   subnet_id                 = azurerm_subnet.devops_test_vn_subnet.id
   network_security_group_id = azurerm_network_security_group.devops_test_nsg.id
@@ -86,10 +91,7 @@ resource "azurerm_public_ip" "devops_test_pub_ip" {
   resource_group_name = azurerm_resource_group.devops_test_rg.name
   location            = azurerm_resource_group.devops_test_rg.location
   allocation_method   = "Dynamic"
-
-  tags = {
-    environment = "devops_test"
-  }
+  tags                = var.common_tags
 }
 
 resource "azurerm_network_interface" "devops_test_nic_01" {
@@ -103,17 +105,14 @@ resource "azurerm_network_interface" "devops_test_nic_01" {
     private_ip_address_allocation = "Dynamic"
     public_ip_address_id          = azurerm_public_ip.devops_test_pub_ip.id
   }
-
-  tags = {
-    environment = "devops_test"
-  }
+  tags = var.common_tags
 }
 
 resource "azurerm_linux_virtual_machine" "devops_test_vm_01" {
   name                  = "DevOps-Test-VM-01"
   resource_group_name   = azurerm_resource_group.devops_test_rg.name
   location              = azurerm_resource_group.devops_test_rg.location
-  size                  = "Standard_B1s"
+  size                  = var.vm_size
   admin_username        = "adminuser"
   network_interface_ids = [azurerm_network_interface.devops_test_nic_01.id]
 
@@ -144,10 +143,7 @@ resource "azurerm_linux_virtual_machine" "devops_test_vm_01" {
     })
     interpreter = var.host_os == "windows" ? ["Powershell", "-Command"] : ["bash", "-c"]
   }
-
-  tags = {
-    environment = "devops_test"
-  }
+  tags = var.common_tags
 }
 
 data "azurerm_public_ip" "devops_test_pub_ip_data" {
