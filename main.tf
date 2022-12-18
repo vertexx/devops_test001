@@ -14,7 +14,7 @@ provider "azurerm" {
 resource "azurerm_resource_group" "devops_test_rg" {
   name     = "DevOps-Test-RG"
   location = var.location
-  tags     = var.common_tags
+  tags     = merge(var.common_tags, { Name = "DevOps Test RG" })
 }
 
 resource "azurerm_virtual_network" "devops_test_vn" {
@@ -149,8 +149,4 @@ resource "azurerm_linux_virtual_machine" "devops_test_vm_01" {
 data "azurerm_public_ip" "devops_test_pub_ip_data" {
   name                = azurerm_public_ip.devops_test_pub_ip.name
   resource_group_name = azurerm_resource_group.devops_test_rg.name
-}
-
-output "public_ip_address" {
-  value = "${azurerm_linux_virtual_machine.devops_test_vm_01.name}: ${data.azurerm_public_ip.devops_test_pub_ip_data.ip_address}"
 }
