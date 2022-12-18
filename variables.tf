@@ -34,3 +34,9 @@ variable "common_tags" {
     Environment = "devops_test"
   }
 }
+
+variable "nsgr_source_address_prefix" {
+  type        = string
+  default     = "*"
+  description = "Network Security Group Rule Source Address Prefix"
+}
