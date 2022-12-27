@@ -2,7 +2,7 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "=3.36.0"
+      version = "=3.37.0"
     }
   }
 }
@@ -48,7 +48,7 @@ resource "azurerm_network_security_rule" "devops_test_nsrules" {
   protocol                    = each.value.protocol
   source_port_range           = "*"
   destination_port_range      = each.value.destination_port_range
-  source_address_prefix       = var.nsgr_source_address_prefix
+  source_address_prefix       = data.http.my_public_ip.response_body
   destination_address_prefix  = "*"
   resource_group_name         = azurerm_resource_group.devops_test_rg.name
   network_security_group_name = azurerm_network_security_group.devops_test_nsg.name
@@ -63,7 +63,7 @@ resource "azurerm_public_ip" "devops_test_pub_ip" {
   name                = "DevOps-Test-Pub-IP"
   resource_group_name = azurerm_resource_group.devops_test_rg.name
   location            = azurerm_resource_group.devops_test_rg.location
-  allocation_method   = "Dynamic"
+  allocation_method   = "Static"
   tags                = var.common_tags
 }
 
@@ -122,4 +122,8 @@ resource "azurerm_linux_virtual_machine" "devops_test_vm_01" {
 data "azurerm_public_ip" "devops_test_pub_ip_data" {
   name                = azurerm_public_ip.devops_test_pub_ip.name
   resource_group_name = azurerm_resource_group.devops_test_rg.name
+}
+
+data "http" "my_public_ip" {
+  url = "https://ifconfig.me/ip"
 }
