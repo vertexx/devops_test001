@@ -18,5 +18,11 @@ locals {
       protocol               = "Tcp"
       destination_port_range = "8081"
     }
+    nexus-docker = {
+      name                   = "nexus-docker"
+      priority               = 300
+      protocol               = "Tcp"
+      destination_port_range = "8083"
+    }
   }
 }
