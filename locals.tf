@@ -7,22 +7,22 @@ locals {
       destination_port_range = "22"
     }
     www = {
-      name                   = "www-java-app"
+      name                   = "www"
       priority               = 150
       protocol               = "Tcp"
-      destination_port_range = "7071"
+      destination_port_range = "80"
     }
-    nexus = {
-      name                   = "nexus"
+    https = {
+      name                   = "https"
       priority               = 200
       protocol               = "Tcp"
-      destination_port_range = "8081"
+      destination_port_range = "443"
     }
-    nexus-docker = {
-      name                   = "nexus-docker"
+    grafana = {
+      name                   = "grafana"
       priority               = 300
       protocol               = "Tcp"
-      destination_port_range = "8083"
+      destination_port_range = "3000"
     }
   }
 }

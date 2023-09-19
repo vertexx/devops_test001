@@ -48,7 +48,8 @@ resource "azurerm_network_security_rule" "devops_test_nsrules" {
   protocol                    = each.value.protocol
   source_port_range           = "*"
   destination_port_range      = each.value.destination_port_range
-  source_address_prefix       = data.http.my_public_ip.response_body
+  source_address_prefix       = "*"
+  # source_address_prefix       = data.http.my_public_ip.response_body
   destination_address_prefix  = "*"
   resource_group_name         = azurerm_resource_group.devops_test_rg.name
   network_security_group_name = azurerm_network_security_group.devops_test_nsg.name
