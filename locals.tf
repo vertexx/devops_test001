@@ -18,6 +18,12 @@ locals {
       protocol               = "Tcp"
       destination_port_range = "443"
     }
+    mysql = {
+      name                   = "mysql"
+      priority               = 250
+      protocol               = "Tcp"
+      destination_port_range = "3306"
+    }
     # grafana = {
     #   name                   = "grafana"
     #   priority               = 300

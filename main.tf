@@ -146,7 +146,7 @@ resource "azurerm_linux_virtual_machine" "devops_test_vm_02" {
   name                  = "DevOps-Test-VM-02"
   resource_group_name   = azurerm_resource_group.devops_test_rg.name
   location              = azurerm_resource_group.devops_test_rg.location
-  size                  = var.vm_size
+  size                  = var.vm_size2
   admin_username        = "adminuser"
   network_interface_ids = [azurerm_network_interface.devops_test_nic_02.id]
 
