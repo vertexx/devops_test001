@@ -18,11 +18,11 @@ locals {
       protocol               = "Tcp"
       destination_port_range = "443"
     }
-    grafana = {
-      name                   = "grafana"
-      priority               = 300
-      protocol               = "Tcp"
-      destination_port_range = "3000"
-    }
+    # grafana = {
+    #   name                   = "grafana"
+    #   priority               = 300
+    #   protocol               = "Tcp"
+    #   destination_port_range = "3000"
+    # }
   }
 }
