@@ -24,11 +24,11 @@ locals {
       protocol               = "Tcp"
       destination_port_range = "3306"
     }
-    # grafana = {
-    #   name                   = "grafana"
-    #   priority               = 300
-    #   protocol               = "Tcp"
-    #   destination_port_range = "3000"
-    # }
+    loki = {
+      name                   = "loki"
+      priority               = 300
+      protocol               = "Tcp"
+      destination_port_range = "3100"
+    }
   }
 }
