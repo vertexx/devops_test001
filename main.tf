@@ -40,15 +40,15 @@ resource "azurerm_network_security_group" "devops_test_nsg" {
 }
 
 resource "azurerm_network_security_rule" "devops_test_nsrules" {
-  for_each                    = local.nsg_rules
-  name                        = each.key
-  priority                    = each.value.priority
-  direction                   = "Inbound"
-  access                      = "Allow"
-  protocol                    = each.value.protocol
-  source_port_range           = "*"
-  destination_port_range      = each.value.destination_port_range
-  source_address_prefix       = "*"
+  for_each               = local.nsg_rules
+  name                   = each.key
+  priority               = each.value.priority
+  direction              = "Inbound"
+  access                 = "Allow"
+  protocol               = each.value.protocol
+  source_port_range      = "*"
+  destination_port_range = each.value.destination_port_range
+  source_address_prefix  = each.value.source_address_prefix
   # source_address_prefix       = data.http.my_public_ip.response_body
   destination_address_prefix  = "*"
   resource_group_name         = azurerm_resource_group.devops_test_rg.name

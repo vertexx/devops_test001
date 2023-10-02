@@ -5,30 +5,35 @@ locals {
       priority               = 100
       protocol               = "Tcp"
       destination_port_range = "22"
+      source_address_prefix  = "*"
     }
     www = {
       name                   = "www"
       priority               = 150
       protocol               = "Tcp"
       destination_port_range = "80"
+      source_address_prefix  = "*"
     }
     https = {
       name                   = "https"
       priority               = 200
       protocol               = "Tcp"
       destination_port_range = "443"
+      source_address_prefix  = "*"
     }
     mysql = {
       name                   = "mysql"
       priority               = 250
       protocol               = "Tcp"
       destination_port_range = "3306"
+      source_address_prefix  = "20.204.105.229"
     }
     loki = {
       name                   = "loki"
       priority               = 300
       protocol               = "Tcp"
       destination_port_range = "3100"
+      source_address_prefix  = "20.204.91.145"
     }
   }
 }
