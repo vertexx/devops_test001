@@ -47,7 +47,7 @@ locals {
       priority               = 315
       protocol               = "Tcp"
       destination_port_range = "8086"
-      source_address_prefix  = "202.184.20.197,20.204.105.229"
+      source_address_prefix  = "202.184.20.197"
     }
   }
 }
