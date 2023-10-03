@@ -42,5 +42,12 @@ locals {
       destination_port_range = "9100"
       source_address_prefix  = "20.204.105.229"
     }
+    influxdb = {
+      name                   = "influxdb"
+      priority               = 315
+      protocol               = "Tcp"
+      destination_port_range = "8086"
+      source_address_prefix  = "*"
+    }
   }
 }
