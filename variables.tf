@@ -21,6 +21,12 @@ variable "vm_size2" {
   description = "VM Size"
 }
 
+variable "vm_size3" {
+  type        = string
+  default     = "Standard_B2s"
+  description = "VM Size"
+}
+
 variable "network_address_space" {
   type        = list(any)
   default     = ["10.4.0.0/16"]
