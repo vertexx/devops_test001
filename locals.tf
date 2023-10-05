@@ -49,5 +49,12 @@ locals {
       destination_port_range = "8086"
       source_address_prefix  = "202.184.20.197"
     }
+    elastic = {
+      name                   = "elastic"
+      priority               = 320
+      protocol               = "Tcp"
+      destination_port_range = "9200"
+      source_address_prefix  = "202.184.20.197"
+    }
   }
 }
